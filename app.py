@@ -15,38 +15,51 @@ st.set_page_config(
 )
 
 # ------------------------------------------------
-# STYLE
+# STYLE + MODERN GRADIENT BACKGROUND
 # ------------------------------------------------
 st.markdown("""
 <style>
+/* Full-page smooth gradient background */
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 40%, #ff6a00 100%);
+    background-attachment: fixed;
+}
+
+/* Dashboard title and subtitle */
 .main-title{
-font-size:42px;
-font-weight:700;
-text-align:center;
+    font-size:42px;
+    font-weight:700;
+    color:white;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
 }
 .subtitle{
-text-align:center;
-color:gray;
-margin-bottom:30px;
+    color:rgba(255,255,255,0.85);
+    margin-bottom:30px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
+
+/* Metrics cards styling */
 div[data-testid="stMetric"]{
-background-color:white;
-border-radius:12px;
-padding:10px;
-box-shadow:0px 4px 8px rgba(0,0,0,0.05);
+    background-color:rgba(255,255,255,0.9);
+    border-radius:12px;
+    padding:10px;
+    box-shadow:0px 4px 12px rgba(0,0,0,0.15);
 }
 </style>
 """, unsafe_allow_html=True)
 
 # ------------------------------------------------
-# HEADER + ANIMATED GIF
+# HEADER + MOSQUITO GIF NEXT TO TITLE
 # ------------------------------------------------
-st.markdown('<div class="main-title">Dengue Outbreak Dynamics Dashboard</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">Stochastic Analysis and Prediction of Dengue Cases</div>', unsafe_allow_html=True)
-
-# Animated mosquito GIF from GitHub
 gif_url = "https://raw.githubusercontent.com/karleaabha-byte/dengue_interactive/refs/heads/main/mosquito.gif"
-st.image(gif_url, width=160)  # GIF animates on Streamlit Cloud
+
+# Create columns: GIF on left, title/subtitle on right
+col1, col2 = st.columns([1, 5])
+with col1:
+    st.image(gif_url, width=120)
+with col2:
+    st.markdown('<div class="main-title">Dengue Outbreak Dynamics Dashboard</div>', unsafe_allow_html=True)
+    st.markdown('<div class="subtitle">Stochastic Analysis and Prediction of Dengue Cases</div>', unsafe_allow_html=True)
 
 # ------------------------------------------------
 # LOAD DATA
@@ -232,39 +245,6 @@ fig_pred = px.line(
 )
 fig_pred.update_layout(template="plotly_white")
 st.plotly_chart(fig_pred, use_container_width=True)
-# ------------------------------------------------
-# STYLE + GRADIENT BACKGROUND
-# ------------------------------------------------
-st.markdown("""
-<style>
-/* Full-page gradient background */
-[data-testid="stAppViewContainer"] {
-    background: linear-gradient(160deg, #ffdde1, #ee9ca7);
-    background-attachment: fixed;
-}
-
-/* Dashboard title and subtitle */
-.main-title{
-    font-size:42px;
-    font-weight:700;
-    text-align:center;
-    color:#4b004b;
-}
-.subtitle{
-    text-align:center;
-    color:#330033;
-    margin-bottom:30px;
-}
-
-/* Metrics cards styling */
-div[data-testid="stMetric"]{
-    background-color:white;
-    border-radius:12px;
-    padding:10px;
-    box-shadow:0px 4px 8px rgba(0,0,0,0.05);
-}
-</style>
-""", unsafe_allow_html=True)
 
 # ------------------------------------------------
 # DATASET
