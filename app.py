@@ -41,21 +41,27 @@ box-shadow:0px 4px 8px rgba(0,0,0,0.05);
 """, unsafe_allow_html=True)
 
 # ------------------------------------------------
-# HEADER + LOTTIE ANIMATION
+# HEADER + LOTTIE ANIMATION (Safe)
 # ------------------------------------------------
 st.markdown('<div class="main-title">Dengue Outbreak Dynamics Dashboard</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Stochastic Analysis and Prediction of Dengue Cases</div>', unsafe_allow_html=True)
 
-# Load Lottie animation
+# Load Lottie safely
 def load_lottieurl(url):
-    r = requests.get(url)
-    if r.status_code != 200:
+    try:
+        r = requests.get(url)
+        if r.status_code != 200:
+            return None
+        return r.json()
+    except:
         return None
-    return r.json()
 
 lottie_url = "https://assets9.lottiefiles.com/packages/lf20_mosquito.json"
 lottie_json = load_lottieurl(lottie_url)
-st_lottie(lottie_json, height=150)
+if lottie_json is not None:
+    st_lottie(lottie_json, height=150)
+else:
+    st.info("⚠️ Lottie animation could not be loaded. Proceeding without animation.")
 
 # ------------------------------------------------
 # LOAD DATA
@@ -114,7 +120,7 @@ else:
 st.metric("System Stability ⚖️", status)
 
 # ------------------------------------------------
-# YEARWISE CASE GRAPH (Animated)
+# YEARWISE CASE GRAPH
 # ------------------------------------------------
 st.header("Year-wise Dengue Cases")
 color_scale = px.colors.sequential.Pinkyl
