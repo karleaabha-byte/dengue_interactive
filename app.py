@@ -232,6 +232,39 @@ fig_pred = px.line(
 )
 fig_pred.update_layout(template="plotly_white")
 st.plotly_chart(fig_pred, use_container_width=True)
+# ------------------------------------------------
+# STYLE + GRADIENT BACKGROUND
+# ------------------------------------------------
+st.markdown("""
+<style>
+/* Full-page gradient background */
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(160deg, #ffdde1, #ee9ca7);
+    background-attachment: fixed;
+}
+
+/* Dashboard title and subtitle */
+.main-title{
+    font-size:42px;
+    font-weight:700;
+    text-align:center;
+    color:#4b004b;
+}
+.subtitle{
+    text-align:center;
+    color:#330033;
+    margin-bottom:30px;
+}
+
+/* Metrics cards styling */
+div[data-testid="stMetric"]{
+    background-color:white;
+    border-radius:12px;
+    padding:10px;
+    box-shadow:0px 4px 8px rgba(0,0,0,0.05);
+}
+</style>
+""", unsafe_allow_html=True)
 
 # ------------------------------------------------
 # DATASET
