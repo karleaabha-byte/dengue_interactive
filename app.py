@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-import os
 
 # ------------------------------------------------
 # PAGE CONFIG
@@ -45,15 +44,9 @@ box-shadow:0px 4px 8px rgba(0,0,0,0.05);
 st.markdown('<div class="main-title">Dengue Outbreak Dynamics Dashboard</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Stochastic Analysis and Prediction of Dengue Cases</div>', unsafe_allow_html=True)
 
-# Animated GIF via HTML (works in Streamlit)
-gif_path = "mosquito.gif"
-if os.path.exists(gif_path):
-    st.markdown(
-        f'<img src="{gif_path}" width="160" style="display:block; margin:auto;">',
-        unsafe_allow_html=True
-    )
-else:
-    st.markdown("### 🦟 Dengue Analytics")
+# Animated mosquito GIF from GitHub
+gif_url = "https://raw.githubusercontent.com/karleaabha-byte/dengue_interactive/refs/heads/main/mosquito.gif"
+st.image(gif_url, width=160)  # GIF animates on Streamlit Cloud
 
 # ------------------------------------------------
 # LOAD DATA
