@@ -4,8 +4,6 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-from streamlit_lottie import st_lottie
-import requests
 
 # ------------------------------------------------
 # PAGE CONFIG
@@ -41,27 +39,13 @@ box-shadow:0px 4px 8px rgba(0,0,0,0.05);
 """, unsafe_allow_html=True)
 
 # ------------------------------------------------
-# HEADER + LOTTIE ANIMATION (Safe)
+# HEADER + GIF ANIMATION
 # ------------------------------------------------
 st.markdown('<div class="main-title">Dengue Outbreak Dynamics Dashboard</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Stochastic Analysis and Prediction of Dengue Cases</div>', unsafe_allow_html=True)
 
-# Load Lottie safely
-def load_lottieurl(url):
-    try:
-        r = requests.get(url)
-        if r.status_code != 200:
-            return None
-        return r.json()
-    except:
-        return None
-
-lottie_url = "https://assets9.lottiefiles.com/packages/lf20_mosquito.json"
-lottie_json = load_lottieurl(lottie_url)
-if lottie_json is not None:
-    st_lottie(lottie_json, height=150)
-else:
-    st.info("⚠️ Lottie animation could not be loaded. Proceeding without animation.")
+# Display GIF (place mosquito.gif in the same folder as app.py)
+st.image("mosquito.gif", width=150)
 
 # ------------------------------------------------
 # LOAD DATA
