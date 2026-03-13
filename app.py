@@ -15,13 +15,13 @@ st.set_page_config(
 )
 
 # ------------------------------------------------
-# STYLE + MODERN GRADIENT BACKGROUND
+# STYLE + NEUTRAL GRADIENT BACKGROUND
 # ------------------------------------------------
 st.markdown("""
 <style>
-/* Full-page smooth gradient background */
+/* Full-page neutral gradient background */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 40%, #ff6a00 100%);
+    background: linear-gradient(160deg, #f5f5f5 0%, #ffffff 50%, #f0f0f0 100%);
     background-attachment: fixed;
 }
 
@@ -29,21 +29,19 @@ st.markdown("""
 .main-title{
     font-size:42px;
     font-weight:700;
-    color:white;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+    color:#333333;
 }
 .subtitle{
-    color:rgba(255,255,255,0.85);
+    color:#555555;
     margin-bottom:30px;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
 /* Metrics cards styling */
 div[data-testid="stMetric"]{
-    background-color:rgba(255,255,255,0.9);
+    background-color:rgba(255,255,255,0.95);
     border-radius:12px;
     padding:10px;
-    box-shadow:0px 4px 12px rgba(0,0,0,0.15);
+    box-shadow:0px 2px 6px rgba(0,0,0,0.1);
 }
 </style>
 """, unsafe_allow_html=True)
@@ -53,7 +51,6 @@ div[data-testid="stMetric"]{
 # ------------------------------------------------
 gif_url = "https://raw.githubusercontent.com/karleaabha-byte/dengue_interactive/refs/heads/main/mosquito.gif"
 
-# Create columns: GIF on left, title/subtitle on right
 col1, col2 = st.columns([1, 5])
 with col1:
     st.image(gif_url, width=120)
@@ -124,9 +121,10 @@ fig_bar = px.bar(
     x="Year",
     y="Cases",
     color="Cases",
-    color_continuous_scale="RdPu"
+    color_continuous_scale=px.colors.sequential.Greys,
+    labels={"Cases":"Number of Cases","Year":"Year"}
 )
-fig_bar.update_layout(template="plotly_white")
+fig_bar.update_layout(template="plotly_white", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
 st.plotly_chart(fig_bar, use_container_width=True)
 
 # ------------------------------------------------
@@ -140,16 +138,16 @@ fig_trend.add_trace(go.Scatter(
     y=data["Cases"],
     mode="lines+markers",
     name="Actual Cases",
-    line=dict(color="#ff4da6")
+    line=dict(color="#6c757d")
 ))
 fig_trend.add_trace(go.Scatter(
     x=data["Year"],
     y=data["rolling"],
     mode="lines",
     name="3-Year Moving Avg",
-    line=dict(color="#7a0177", width=4)
+    line=dict(color="#343a40", width=4)
 ))
-fig_trend.update_layout(template="plotly_white")
+fig_trend.update_layout(template="plotly_white", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
 st.plotly_chart(fig_trend, use_container_width=True)
 
 # ------------------------------------------------
@@ -164,11 +162,11 @@ heatmap_df = df.pivot_table(
 )
 fig_heat = px.imshow(
     heatmap_df,
-    color_continuous_scale="RdPu",
+    color_continuous_scale=px.colors.sequential.Greys,
     aspect="auto",
     labels=dict(x="Year", y="Region", color="Cases")
 )
-fig_heat.update_layout(height=700, template="plotly_white")
+fig_heat.update_layout(height=700, template="plotly_white", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
 st.plotly_chart(fig_heat, use_container_width=True)
 
 # ------------------------------------------------
@@ -203,7 +201,7 @@ fig_sim.add_trace(go.Scatter(
     x=years,
     y=lower,
     fill="tonexty",
-    fillcolor="rgba(255,0,150,0.2)",
+    fillcolor="rgba(108,117,125,0.2)",
     line=dict(width=0),
     name="Uncertainty"
 ))
@@ -211,11 +209,13 @@ fig_sim.add_trace(go.Scatter(
     x=years,
     y=mean_path,
     mode="lines+markers",
-    line=dict(color="#ff4da6", width=4),
+    line=dict(color="#6c757d", width=4),
     name="Expected Cases"
 ))
 fig_sim.update_layout(
     template="plotly_white",
+    plot_bgcolor="rgba(0,0,0,0)",
+    paper_bgcolor="rgba(0,0,0,0)",
     xaxis_title="Year",
     yaxis_title="Predicted Cases"
 )
@@ -241,9 +241,9 @@ fig_pred = px.line(
     y="Cases",
     color="Type",
     markers=True,
-    color_discrete_sequence=["#ff4da6", "#ff99cc"]
+    color_discrete_map={"Actual":"#6c757d","Predicted":"#adb5bd"}
 )
-fig_pred.update_layout(template="plotly_white")
+fig_pred.update_layout(template="plotly_white", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
 st.plotly_chart(fig_pred, use_container_width=True)
 
 # ------------------------------------------------
