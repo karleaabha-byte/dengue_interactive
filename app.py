@@ -15,13 +15,13 @@ st.set_page_config(
 )
 
 # ------------------------------------------------
-# STYLE + NEUTRAL GRADIENT BACKGROUND
+# STYLE + NEUTRAL EARTHY GRADIENT BACKGROUND
 # ------------------------------------------------
 st.markdown("""
 <style>
-/* Full-page neutral gradient background */
+/* Full-page neutral earthy gradient background */
 [data-testid="stAppViewContainer"] {
-    background: linear-gradient(160deg, #f5f5f5 0%, #ffffff 50%, #f0f0f0 100%);
+    background: linear-gradient(160deg, #fdf6e3 0%, #f5f0e6 50%, #efe6db 100%);
     background-attachment: fixed;
 }
 
@@ -29,16 +29,16 @@ st.markdown("""
 .main-title{
     font-size:42px;
     font-weight:700;
-    color:#333333;
+    color:#5c3d2e;
 }
 .subtitle{
-    color:#555555;
+    color:#7a5a48;
     margin-bottom:30px;
 }
 
 /* Metrics cards styling */
 div[data-testid="stMetric"]{
-    background-color:rgba(255,255,255,0.95);
+    background-color:rgba(255,250,240,0.95);
     border-radius:12px;
     padding:10px;
     box-shadow:0px 2px 6px rgba(0,0,0,0.1);
@@ -121,7 +121,7 @@ fig_bar = px.bar(
     x="Year",
     y="Cases",
     color="Cases",
-    color_continuous_scale=px.colors.sequential.Greys,
+    color_continuous_scale=px.colors.sequential.Oranges,
     labels={"Cases":"Number of Cases","Year":"Year"}
 )
 fig_bar.update_layout(template="plotly_white", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
@@ -138,14 +138,14 @@ fig_trend.add_trace(go.Scatter(
     y=data["Cases"],
     mode="lines+markers",
     name="Actual Cases",
-    line=dict(color="#6c757d")
+    line=dict(color="#a0522d")  # sienna brown
 ))
 fig_trend.add_trace(go.Scatter(
     x=data["Year"],
     y=data["rolling"],
     mode="lines",
     name="3-Year Moving Avg",
-    line=dict(color="#343a40", width=4)
+    line=dict(color="#5c3d2e", width=4)  # dark brown
 ))
 fig_trend.update_layout(template="plotly_white", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
 st.plotly_chart(fig_trend, use_container_width=True)
@@ -162,7 +162,7 @@ heatmap_df = df.pivot_table(
 )
 fig_heat = px.imshow(
     heatmap_df,
-    color_continuous_scale=px.colors.sequential.Greys,
+    color_continuous_scale=px.colors.sequential.Oranges,
     aspect="auto",
     labels=dict(x="Year", y="Region", color="Cases")
 )
@@ -201,7 +201,7 @@ fig_sim.add_trace(go.Scatter(
     x=years,
     y=lower,
     fill="tonexty",
-    fillcolor="rgba(108,117,125,0.2)",
+    fillcolor="rgba(255,165,0,0.2)",  # soft orange
     line=dict(width=0),
     name="Uncertainty"
 ))
@@ -209,7 +209,7 @@ fig_sim.add_trace(go.Scatter(
     x=years,
     y=mean_path,
     mode="lines+markers",
-    line=dict(color="#6c757d", width=4),
+    line=dict(color="#a0522d", width=4),
     name="Expected Cases"
 ))
 fig_sim.update_layout(
@@ -241,7 +241,7 @@ fig_pred = px.line(
     y="Cases",
     color="Type",
     markers=True,
-    color_discrete_map={"Actual":"#6c757d","Predicted":"#adb5bd"}
+    color_discrete_map={"Actual":"#a0522d","Predicted":"#deb887"}  # sienna & burlywood
 )
 fig_pred.update_layout(template="plotly_white", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
 st.plotly_chart(fig_pred, use_container_width=True)
