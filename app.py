@@ -255,13 +255,16 @@ st.plotly_chart(fig_pred, use_container_width=True)
 st.header("Dataset")
 
 # Style dataframe for earthy theme
+# ------------------------------------------------
+# DATASET
+# ------------------------------------------------
+st.header("Dataset")
+
+# Simple earthy styling: light brown background, dark brown text
 def style_earthy(df):
-    return (df.style
-            .set_properties(**{'background-color': '#fdf6e3', 'color': '#5c3d2e'})  # rows
-            .set_table_styles([
-                {'selector': 'th', 'props': [('background-color', '#deb887'), ('color', '#5c3d2e'), ('font-weight','bold')]},  # header
-            ])
-            .highlight_max(axis=0, color='#f4a261')  # optional: highlight max in soft orange
-           )
+    return df.style.set_properties(**{
+        'background-color': '#f5e9d4',  # light brown
+        'color': '#5c3d2e',             # dark brown text
+    })
 
 st.dataframe(style_earthy(data))
