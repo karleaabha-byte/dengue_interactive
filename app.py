@@ -169,16 +169,22 @@ fig_heat = px.imshow(
 fig_heat.update_layout(height=700, template="plotly_white", plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
 st.plotly_chart(fig_heat, use_container_width=True)
 
-# ------------------------------------------------
+
+
+  # ------------------------------------------------
 # MONTE CARLO SIMULATION
 # ------------------------------------------------
 st.header("Monte Carlo Outbreak Simulation")
 st.latex(r"Cases_{t+1}=Cases_t(1+G+\epsilon)")
 
+# ensure new randomness every rerun
+np.random.seed(None)
+
 last_cases = data["Cases"].iloc[-1]
 last_year = int(data["Year"].max())
 future_years = 5
 years = list(range(last_year + 1, last_year + future_years + 1))
+
 paths = []
 
 for s in range(simulations):
@@ -191,20 +197,36 @@ for s in range(simulations):
     paths.append(path)
 
 paths = np.array(paths)
+
+# stats
 mean_path = paths.mean(axis=0)
-upper = np.percentile(paths, 95, axis=0)
-lower = np.percentile(paths, 5, axis=0)
+upper = np.percentile(paths, 90, axis=0)
+lower = np.percentile(paths, 10, axis=0)
 
 fig_sim = go.Figure()
+
+# 🔹 NEW: show individual simulation paths (visual impact)
+for i in range(min(simulations, 50)):  # limit for performance
+    fig_sim.add_trace(go.Scatter(
+        x=years,
+        y=paths[i],
+        line=dict(width=1),
+        opacity=0.15,
+        showlegend=False
+    ))
+
+# uncertainty band
 fig_sim.add_trace(go.Scatter(x=years, y=upper, line=dict(width=0), showlegend=False))
 fig_sim.add_trace(go.Scatter(
     x=years,
     y=lower,
     fill="tonexty",
-    fillcolor="rgba(255,165,0,0.2)",  # soft orange
+    fillcolor="rgba(255,165,0,0.25)",
     line=dict(width=0),
     name="Uncertainty"
 ))
+
+# mean line
 fig_sim.add_trace(go.Scatter(
     x=years,
     y=mean_path,
@@ -212,6 +234,7 @@ fig_sim.add_trace(go.Scatter(
     line=dict(color="#a0522d", width=4),
     name="Expected Cases"
 ))
+
 fig_sim.update_layout(
     template="plotly_white",
     plot_bgcolor="rgba(0,0,0,0)",
@@ -219,7 +242,11 @@ fig_sim.update_layout(
     xaxis_title="Year",
     yaxis_title="Predicted Cases"
 )
+
 st.plotly_chart(fig_sim, use_container_width=True)
+
+# 🔹 optional: show variability
+st.write("Simulation Variability (Std Dev):", round(np.std(paths), 3))
 
 # ------------------------------------------------
 # FUTURE PREDICTION
