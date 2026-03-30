@@ -245,8 +245,6 @@ fig_sim.update_layout(
 
 st.plotly_chart(fig_sim, use_container_width=True)
 
-# 🔹 optional: show variability
-st.write("Simulation Variability (Std Dev):", round(np.std(paths), 3))
 
 # ------------------------------------------------
 # FUTURE PREDICTION
